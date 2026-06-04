@@ -1,6 +1,7 @@
 ﻿using DynamicForm.Application.DTOs.FormSubmit;
 using DynamicForm.Domain.Entities;
 using DynamicForm.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
@@ -8,6 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace DynamicForm.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FormSubmitController(AppDbContext _context) : ControllerBase
