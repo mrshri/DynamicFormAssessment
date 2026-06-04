@@ -1,0 +1,190 @@
+﻿@model DynamicForm.UI.Models.FormConfigViewModel
+@{
+    ViewData["Title"] = "Dynamic Form";
+}
+
+<div class="container mt-5">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="form-card">
+
+        <div class="form-header">
+            <h4>@Model.Title</h4>
+        </div>
+
+        <form asp-action="Submit" method="post" id="dynamicForm">
+
+            <input type="hidden"
+                   name="FormKey"
+                   value="@Model.FormKey" />
+
+            <input type="hidden"
+                   name="FormVersion"
+                   value="@Model.Version" />
+
+            <div class="form-grid">
+
+                @foreach (var field in Model.Fields.OrderBy(x => x.DisplayOrder))
+                {
+                    var cssClass = field.ColumnSpan == 2
+                    ? "form-group full-width"
+                    : "form-group";
+
+                    <div class="@cssClass">
+
+                        <label class="form-label">
+
+                            @field.Label
+
+                            @if (field.IsRequired)
+                            {
+                                <span class="required">*</span>
+                            }
+
+                        </label>
+
+                        @switch (field.InputType.ToLower())
+                        {
+                            case "textbox":
+
+                                <input type="text"
+                                       class="form-control dynamic-input"
+                                       name="@field.FieldName"
+                                       value="@field.DefaultValue"
+                                       placeholder="@field.Placeholder"
+                                @(field.IsRequired ? "required" : "") />
+
+                                break;
+
+                            case "textarea":
+
+                                <textarea class="form-control dynamic-input"
+                                          rows="4"
+                                          name="@field.FieldName"
+                                          placeholder="@field.Placeholder">@field.DefaultValue</textarea>
+
+                                break;
+
+                            case "dropdown":
+
+                                <select class="form-select dynamic-input"
+                                        name="@field.FieldName"
+                                    @(field.IsRequired ? "required" : "")>
+
+                                    <option value="">
+                                        Select
+                                    </option>
+
+                                    @foreach (var option in field.Options)
+                                    {
+                                        if (field.DefaultValue == option.OptionValue)
+                                        {
+                                            <option selected
+                                                    value="@option.OptionValue">
+                                                @option.OptionLabel
+                                            </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@option.OptionValue">
+                                                @option.OptionLabel
+                                            </option>
+                                        }
+                                    }
+
+                                </select>
+
+                                break;
+
+                            case "checkbox":
+
+                                <input type="checkbox"
+                                       class="form-check-input dynamic-input"
+                                       name="@field.FieldName" />
+
+                                break;
+
+                            default:
+
+                                <input type="text"
+                                       class="form-control dynamic-input"
+                                       name="@field.FieldName" />
+
+                                break;
+                        }
+
+                        <span class="field-error"></span>
+
+                    </div>
+                }
+
+            </div>
+
+            <div class="mt-4">
+
+                <button type="submit"
+                        id="submitBtn"
+                        class="btn btn-primary submit-btn"
+                        disabled>
+                    Submit
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const form = document.getElementById("dynamicForm");
+            const submitBtn = document.getElementById("submitBtn");
+
+            function validateForm() {
+
+                let isValid = true;
+
+                const requiredFields =
+                    form.querySelectorAll("[required]");
+
+                requiredFields.forEach(field => {
+
+                    if (!field.value.trim()) {
+                        isValid = false;
+                    }
+                });
+
+                submitBtn.disabled = !isValid;
+            }
+
+            document.querySelectorAll(".dynamic-input")
+                .forEach(element => {
+
+                    element.addEventListener("input", validateForm);
+                    element.addEventListener("change", validateForm);
+                });
+
+            validateForm();
+        });
+
+    </script>
+}
