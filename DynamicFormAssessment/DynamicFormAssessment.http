@@ -1,0 +1,6 @@
+@DynamicFormAssessment_HostAddress = http://localhost:5036
+
+GET {{DynamicFormAssessment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

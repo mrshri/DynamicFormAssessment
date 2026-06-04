@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/DynamicForm.Application/">
+    <Project Path="DynamicForm.Application/DynamicForm.Application.csproj" />
+  </Folder>
+  <Folder Name="/DynamicForm.Domain/">
+    <Project Path="DynamicForm.Domain/DynamicForm.Domain.csproj" />
+  </Folder>
+  <Folder Name="/DynamicForm.Infrastructure/">
+    <Project Path="DynamicForm.Infrastructure/DynamicForm.Infrastructure.csproj" />
+  </Folder>
+  <Project Path="DynamicForm.Api/DynamicForm.Api.csproj" />
+</Solution>
