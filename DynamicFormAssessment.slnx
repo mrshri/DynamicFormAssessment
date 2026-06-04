@@ -9,4 +9,5 @@
     <Project Path="DynamicForm.Infrastructure/DynamicForm.Infrastructure.csproj" />
   </Folder>
   <Project Path="DynamicForm.Api/DynamicForm.Api.csproj" />
+  <Project Path="DynamicForm.UI/DynamicForm.UI.csproj" Id="088dfdcc-6852-47c2-ba55-a1fc65e40a60" />
 </Solution>
