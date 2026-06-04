@@ -1,10 +1,12 @@
 ﻿using DynamicForm.Application.DTOs.FormConfig;
 using DynamicForm.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DynamicForm.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FormConfigController(AppDbContext _context) : ControllerBase
